@@ -18,20 +18,20 @@ def readPort(ser, leader):
 
 
 def sniffSerial():
-    ser1 = serial.Serial('/dev/ttyUSB0')
-    ser2 = serial.Serial('/dev/ttyUSB1')
+    responsePort = serial.Serial('/dev/ttyUSB0')
+    requestPort = serial.Serial('/dev/ttyUSB1')
     while True:
-        ser1.timeout = None
-        ser2.timeout = None
+        responsePort.timeout = None
+        requestPort.timeout = None
 
-        if ser1.in_waiting == 0 and ser2.in_waiting == 0:
+        if responsePort.in_waiting == 0 and requestPort.in_waiting == 0:
             sleep(0.5)
             continue
 
-        if ser1.in_waiting > 0:
-            readPort(ser1, '>')
+        if requestPort.in_waiting > 0:
+            readPort(requestPort, '>')
         else:
-            readPort(ser2, '<')
+            readPort(responsePort, '<')
 
 
 if __name__ == '__main__':
